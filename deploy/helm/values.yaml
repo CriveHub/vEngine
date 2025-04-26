@@ -1,0 +1,16 @@
+{
+  "replicaCount": 1,
+  "image": {
+    "repository": "crivehub/engineproject",
+    "tag": "1.6.0",
+    "pullPolicy": "IfNotPresent"
+  },
+  "service": {
+    "type": "ClusterIP",
+    "port": 5000
+  },
+  "resources": {},
+  "nodeSelector": {},
+  "tolerations": [],
+  "affinity": {}
+}

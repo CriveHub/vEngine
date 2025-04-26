@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+      - name: Run Bandit
+        run: bandit -r src
+      - name: OWASP ZAP Scan
+        run: echo 'ZAP scan stub'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Build frontend
+        working-directory: src/app/frontend/reactapp
+        run: |
+          npm ci
+          npm run build
+      - name: Run pre-commit
+        run: pre-commit run --all-files
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Lint with flake8
+        run: |
+          flake8 app
+      - name: Type check with mypy
+        run: |
+          mypy app
+      - name: Run tests
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
+      - name: Run E2E tests
+        run: |
+          pytest tests/e2e
+      - name: Upload coverage
+      - name: Check coverage threshold
+        run: pytest --maxfail=1 --disable-warnings -q --cov --cov-fail-under=80
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.xml

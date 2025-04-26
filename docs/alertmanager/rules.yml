@@ -1,0 +1,19 @@
+groups:
+- name: engineproject.rules
+  rules:
+  - alert: BackupFailure
+    expr: backup_failure_total > 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Backup failures detected"
+      description: "There have been backup failures in the last 5 minutes."
+  - alert: EngineErrors
+    expr: engine_errors_total > 10
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High engine error rate"
+      description: "Engine emitted more than 10 errors in the last minute."

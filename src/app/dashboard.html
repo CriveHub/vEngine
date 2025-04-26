@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Central Engine Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-4">Central Engine Manager</h1>
+      <div id="engineList" class="mt-3"></div>
+      <hr>
+      <h3>Aggiungi Nuovo Engine</h3>
+      <form id="addEngineForm">
+        <div class="form-group">
+          <label for="engineId">ID Engine</label>
+          <input type="text" class="form-control" id="engineId" required>
+        </div>
+        <div class="form-group">
+          <label for="cycleTime">Tempo di Ciclo (ms)</label>
+          <input type="number" class="form-control" id="cycleTime" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Aggiungi Engine</button>
+      </form>
+      <hr>
+      <div id="alerts"></div>
+    </div>
+    <script>
+      function refreshEngineList() {
+        fetch('/engines')
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById("engineList").innerHTML = "<h3>Engines Attivi</h3><pre>" + JSON.stringify(data, null, 2) + "</pre>";
+          });
+      }
+      refreshEngineList();
+      document.getElementById("addEngineForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        var engineId = document.getElementById("engineId").value;
+        var cycleTime = parseFloat(document.getElementById("cycleTime").value);
+        fetch('/engines', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({engine_id: engineId, cycle_time: cycleTime})
+        })
+        .then(response => response.json())
+        .then(data => {
+          var alertsDiv = document.getElementById("alerts");
+          alertsDiv.innerHTML += '<div class="alert alert-success">'+JSON.stringify(data)+'</div>';
+          refreshEngineList();
+        });
+      });
+    </script>
+  
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/static/service-worker.js');
+}
+</script>
+</body>
+</html>

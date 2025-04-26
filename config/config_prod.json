@@ -1,0 +1,11 @@
+{
+    "cycle_time": 0.001,
+    "max_workers": 16,
+    "log_level": "INFO",
+    "api_port": 80,
+    "dashboard_port": 8080,
+    "db_path": "states_prod.db",
+    "retry_attempts": 3,
+    "retry_delay": 0.005,
+    "memory_threshold_mb": 1024
+  }

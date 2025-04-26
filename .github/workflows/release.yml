@@ -1,0 +1,22 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+      - name: Scan image with Trivy
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL crivehub/engineproject:${{ github.ref_name }}
+        run: docker build -t crivehub/engineproject:${{ github.ref_name }} .
+      - name: Build multi-arch
+        run: docker buildx build --platform linux/amd64,linux/arm64 -t crivehub/engineproject:${{ github.ref_name }} --push .
+      - name: Push to Docker Hub
+        run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin &&              docker push crivehub/engineproject:${{ github.ref_name }}
+      - name: Package Helm chart
+        run: helm package deploy/helm && helm push engineproject-${{ github.ref_name }} oci://charts.example.com/
+      - name: Helm lint
+        run: helm lint deploy/helm

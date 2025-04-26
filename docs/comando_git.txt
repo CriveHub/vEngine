@@ -1,0 +1,1 @@
+git checkout main && git add . && git commit -m "Aggiornamenti e refactoring" && git pull --rebase origin main && git push -u origin main

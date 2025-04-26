@@ -1,0 +1,8 @@
+---
+- name: Copy config files
+  template:
+    src: config.json.j2
+    dest: /etc/engineproject/config.json
+
+- name: Deploy with Docker Compose
+  command: docker-compose -f /opt/engineproject/deploy/docker-compose.yml up -d

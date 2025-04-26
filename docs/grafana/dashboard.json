@@ -1,0 +1,32 @@
+{
+  "title": "Comprehensive EngineProject",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "IO Latency",
+      "targets": [
+        {
+          "expr": "io_latency_seconds"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "DB Write Duration",
+      "targets": [
+        {
+          "expr": "db_write_duration_seconds"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Engine Throughput",
+      "targets": [
+        {
+          "expr": "rate(engine_cycles_total[1m])"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Database Migrations
+
+Use Alembic to manage database schema changes:
+
+1. pip install alembic
+2. alembic init migrations
+3. Configure alembic.ini (sqlalchemy.url)
+4. alembic revision --autogenerate -m "Create history index"
+5. alembic upgrade head

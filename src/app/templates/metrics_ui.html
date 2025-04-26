@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head><title>Metrics Dashboard</title></head><body>
+<h1>Metrics</h1>
+<pre id="metrics"></pre>
+<script>
+fetch('/metrics').then(r=>r.text()).then(t=>document.getElementById('metrics').innerText=t);
+</script>
+</body></html>

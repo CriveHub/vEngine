@@ -1,0 +1,12 @@
+
+syntax = "proto3";
+package engineproject;
+
+service EngineService {
+  rpc GetVersion(VersionRequest) returns (VersionReply) {}
+}
+
+message VersionRequest {}
+message VersionReply {
+  string version = 1;
+}

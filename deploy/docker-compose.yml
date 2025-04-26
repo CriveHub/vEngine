@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  engine:
+    image: crivehub/engineproject:3.5.0
+    container_name: engineproject
+    volumes:
+      - ./config:/etc/engineproject
+      - ./logs:/var/log/engine
+    ports:
+      - "5000:5000"
+    environment:
+      - CONFIG_KEY_PATH=/etc/engineproject/config.json
+      - BACKUP_ALERT_SLACK_WEBHOOK
+      - JWT_SECRET
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./docs/grafana/provisioning:/etc/grafana/provisioning
+      - ./docs/grafana/dashboard.json:/var/lib/grafana/dashboards/dashboard.json
+    ports:
+      - "3000:3000"

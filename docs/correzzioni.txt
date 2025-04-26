@@ -1,0 +1,14 @@
+	•	deploy/ & installer/
+	•	Criticità
+	•	Secrets hard-coded in YAML; mancano Helm charts e gestione sicura dei segreti.
+	•	Miglioramenti
+	•	Creare Helm charts parametrizzati; usare Kubernetes Secrets/ConfigMap.
+	•	Automatizzare build & scan immagini Docker (Trivy) in CI.
+	•	Priorità: 🟠
+	•	Global (DevOps & QA)
+	•	Criticità
+	•	Nessuna suite di test, pipeline CI/CD, linting o badge di qualità.
+	•	Miglioramenti
+	•	Aggiungere tests/ con pytest e coverage; GitHub Actions per lint/test/build.
+	•	Configurare pre-commit (black, isort, flake8) e badge README.
+	•	Priorità: 🔴
